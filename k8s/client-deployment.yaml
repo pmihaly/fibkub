@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: client
+          image: registry.gitlab.com/pmisi/docker-multi/client:prod-v4
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: regcred

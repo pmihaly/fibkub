@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim # nem tárhely példány, csak elérhető hely 'hirdetése'
+metadata:
+  name: database-persistent-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce # ReadWriteOnce (1 node, i/o) | ReadOnlyMany (több node, o) | ReadWriteMany (több node, i/o)
+  resources:
+    requests:
+      storage: 2Gi # hány gigabájt
