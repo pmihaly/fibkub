@@ -26,7 +26,7 @@ before_install:
   # Mondjuk meg az API-nak, hogy melyik azonosítójú (console.cloud.google.com -> navbar projektnév-> táblázatban ID oszlop) projektet használjuk
   - gcloud config set project fibkub
   # Melyik számítási zónában (melyik adatközpontban) van clusterünk (console.cloud.google.com -> sidemenu -> Kubernetes Engine -> táblázat Location oszlopa)
-  - gcloud set compute/zone europe-west6-c
+  - gcloud config set compute/zone europe-west6-c
   # Melyik clusterrel foglalkozunk
   - gcloud container cluster get-credentials standard-cluster-1
 
