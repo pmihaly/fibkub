@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: registry.gitlab.com/pmisi/docker-multi/server:dev-v1
+          image: registry.gitlab.com/pmisi/docker-multi/server
           ports:
             - containerPort: 5000
           env:

@@ -1,0 +1,47 @@
+sudo: required
+services:
+  - docker
+
+env:
+  global:
+    - SHA=$(git rev-parse HEAD)
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
+before_install:
+  # Google Cloud SDK telepítése
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+
+  # GCPhez személyre szabott kubectl telepítése
+  - gcloud components update kubectl
+
+  # Google Cloudhoz való hozzáférés travis által kódolt fájlban tárolódik
+  # Dekódoljuk a service-account.json.enc fájlt (csak travisban lehetséges)
+  - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in service-account.json.enc -out service-account.json -d
+
+  # Google Cloud belépéshez használjuk a dekódolt fájlt
+  - gcloud auth activate-service-account --key-file service-account.json
+
+  # Google Cloud API konfiguráció
+  # Mondjuk meg az API-nak, hogy melyik azonosítójú (console.cloud.google.com -> navbar projektnév-> táblázatban ID oszlop) projektet használjuk
+  - gcloud config set project fibkub
+  # Melyik számítási zónában (melyik adatközpontban) van clusterünk (console.cloud.google.com -> sidemenu -> Kubernetes Engine -> táblázat Location oszlopa)
+  - gcloud set compute/zone europe-west6-c
+  # Melyik clusterrel foglalkozunk
+  - gcloud container cluster get-credentials standard-cluster-1
+
+  # Bejelentkezés dockerbe (MEGFELELŐ KÖRNYEZETI VÁLTOZÓK BEÁLLÍTÁSA SZÜKSÉGES A TRAVIS DASHBOARDBAN)
+  - echo "$DOCKER_IMAGE_REGISTRY_PASSWORD" | docker login -u "$DOCKER_IMAGE_REGISTRY_USERNAME" --password-stdin registry.gitlab.com
+
+  # Tesztkörnyezet építése
+  - docker-build -t registry.gitlab.com/pmisi/docker-multi/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  # Frontend tesztelése
+  - docker run -e CI=true registry.gitlab.com/pmisi/docker-multi/react-test npm run test
+
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master

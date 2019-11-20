@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: registry.gitlab.com/pmisi/docker-multi/client:prod-v4
+          image: registry.gitlab.com/pmisi/docker-multi/client
           ports:
             - containerPort: 80
       imagePullSecrets:
