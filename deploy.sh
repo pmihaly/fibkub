@@ -12,6 +12,6 @@ docker push registry.gitlab.com/pmisi/docker-multi/worker:$SHA
 
 kubectl apply -f k8s/
 
-kubectl set image deployments/client server=registry.gitlab.com/pmisi/docker-multi/client:$SHA
+kubectl set image deployments/client client=registry.gitlab.com/pmisi/docker-multi/client:$SHA
 kubectl set image deployments/server server=registry.gitlab.com/pmisi/docker-multi/server:$SHA
-kubectl set image deployments/worker server=registry.gitlab.com/pmisi/docker-multi/worker:$SHA
+kubectl set image deployments/worker worker=registry.gitlab.com/pmisi/docker-multi/worker:$SHA
