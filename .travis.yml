@@ -28,7 +28,7 @@ before_install:
   # Melyik számítási zónában (melyik adatközpontban) van clusterünk (console.cloud.google.com -> sidemenu -> Kubernetes Engine -> táblázat Location oszlopa)
   - gcloud config set compute/zone europe-west6-c
   # Melyik clusterrel foglalkozunk
-  - gcloud container cluster get-credentials standard-cluster-1
+  - gcloud container clusters get-credentials standard-cluster-1
 
   # Bejelentkezés dockerbe (MEGFELELŐ KÖRNYEZETI VÁLTOZÓK BEÁLLÍTÁSA SZÜKSÉGES A TRAVIS DASHBOARDBAN)
   - echo "$DOCKER_IMAGE_REGISTRY_PASSWORD" | docker login -u "$DOCKER_IMAGE_REGISTRY_USERNAME" --password-stdin registry.gitlab.com
