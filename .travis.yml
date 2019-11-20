@@ -34,7 +34,7 @@ before_install:
   - echo "$DOCKER_IMAGE_REGISTRY_PASSWORD" | docker login -u "$DOCKER_IMAGE_REGISTRY_USERNAME" --password-stdin registry.gitlab.com
 
   # Tesztkörnyezet építése
-  - docker-build -t registry.gitlab.com/pmisi/docker-multi/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t registry.gitlab.com/pmisi/docker-multi/react-test -f ./client/Dockerfile.dev ./client
 
 script:
   # Frontend tesztelése
